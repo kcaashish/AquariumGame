@@ -70,15 +70,15 @@ public class Aquarium
      */
     public static int[] parseLine(String s)
     {
-//        String[] nums = s.split(" ");
-//        int[] lineAr = new int[nums.length];
-//        int i = 0;
-//        for (String x : nums){
-//            lineAr[i++] = Integer.parseInt(x);
-//        }
+        String[] nums = s.split(" ");
+        int[] lineArr = new int[nums.length];
+        int i = 0;
+        for (String x : nums){
+            lineArr[i++] = Integer.parseInt(x);
+        }
         // TODO 2
-        int[] lineAr = Stream.of(s.split(" ")).mapToInt(Integer::parseInt).toArray();
-        return lineAr;
+//        int[] lineArr = Stream.of(s.split(" ")).mapToInt(Integer::parseInt).toArray();
+        return lineArr;
     }
     
     /**
@@ -132,6 +132,13 @@ public class Aquarium
      */
     public void leftClick(int r, int c)
     {
+        if ( (0 <= r && r < size) && (0 <= c && c < size)) {
+            if (spaces[r][c] == Space.WATER) {
+                spaces[r][c] = Space.EMPTY;
+            } else if (spaces[r][c] == Space.AIR || spaces[r][c] == Space.EMPTY) {
+                spaces[r][c] = Space.WATER;
+            }
+        }
         // TODO 4
     }
     
@@ -141,14 +148,28 @@ public class Aquarium
      */
     public void rightClick(int r, int c)
     {
+        if ( (0 <= r && r < size) && (0 <= c && c < size)) {
+            if (spaces[r][c] == Space.AIR) {
+                spaces[r][c] = Space.EMPTY;
+            } else if (spaces[r][c] == Space.WATER || spaces[r][c] == Space.EMPTY) {
+                spaces[r][c] = Space.AIR;
+            }
+        }
         // TODO 5
     }
-    
+
     /**
      * Empties all of the spaces.
      */
     public void clear()
     {
+        spaces = new Space[size][size];
+
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                spaces[i][j] = Space.EMPTY;
+            }
+        }
         // TODO 6
     }
 }

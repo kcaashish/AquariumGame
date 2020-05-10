@@ -1,4 +1,4 @@
 #BlueJ class context
 comment0.target=Space
-comment0.text=\r\n\ Space\ enumerates\ the\ possible\ states\ of\ a\ space\ on\ an\ Aquarium\ grid.\r\n\r\n\ @author\ \r\n\ @version\ 2020\r\n
+comment0.text=\n\ Space\ enumerates\ the\ possible\ states\ of\ a\ space\ on\ an\ Aquarium\ grid.\n\n\ @author\ Aashish\ K.C.\n\ @version\ 2020\n
 numComments=1

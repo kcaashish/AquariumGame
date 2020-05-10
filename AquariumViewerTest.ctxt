@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=AquariumViewerTest
-comment0.text=\n\ This\ class\ provides\ unit\ test\ cases\ for\ the\ AquariumViewer\ class.\n\ @author\ \n\ @version\ 1.0\n
+comment0.text=\n\ This\ class\ provides\ unit\ test\ cases\ for\ the\ AquariumViewer\ class.\n\ @author\ Aashish\ K.C.\n\ @version\ 1.0\n
 comment1.params=
 comment1.target=void\ setUp()
 comment1.text=\n\ Sets\ up\ the\ test\ fixture.\n\n\ Called\ before\ every\ test\ case\ method.\n

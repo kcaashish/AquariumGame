@@ -39,6 +39,7 @@ public class AquariumViewer implements MouseListener
         sc = new SimpleCanvas("Aquarium Game", WINDOWSIZE, WINDOWSIZE, BACK_COLOUR);
         sc.addMouseListener(this);
         fontSize(2);
+        fontBold();
 
         displayGrid();
         displayNumbers();
@@ -71,6 +72,14 @@ public class AquariumViewer implements MouseListener
     {
         sc.setFont(sc.getFont()
                 .deriveFont((float) (sc.getFont().getSize() * x)));
+    }
+
+    /**
+     * Makes the font bold.
+     */
+    private void fontBold()
+    {
+        sc.setFont(sc.getFont().deriveFont(Font.BOLD));
     }
 
     /**
@@ -132,6 +141,17 @@ public class AquariumViewer implements MouseListener
      */
     public void displayNumbers()
     {
+        // display column numbers
+        for (int i = 0; i < size; i++) {
+            int changingNumberPosition = OFFSET + BOXSIZE / 2 + i * BOXSIZE - 10;
+            sc.drawString(puzzle.getColumnTotals()[i], changingNumberPosition, OFFSET - 15, GRID_COLOUR);
+        }
+
+        // display row numbers
+        for (int i = 0; i < size; i++) {
+            int changingNumberPosition = OFFSET + BOXSIZE / 2 + i * BOXSIZE + 10;
+            sc.drawString(puzzle.getRowTotals()[i], OFFSET - 30, changingNumberPosition, GRID_COLOUR);
+        }
         // TODO 10
     }
     

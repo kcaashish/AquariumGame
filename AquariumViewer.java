@@ -15,7 +15,8 @@ public class AquariumViewer implements MouseListener
     private final int BOXSIZE = 50;          // the size of each square
     private final int OFFSET  = BOXSIZE * 2; // the gap around the board
     private       int WINDOWSIZE;            // set this in the constructor 
-    
+    private       int gridSize;
+
     private Aquarium puzzle; // the internal representation of the puzzle
     private int        size; // the puzzle is size x size
     private SimpleCanvas sc; // the display window
@@ -34,19 +35,13 @@ public class AquariumViewer implements MouseListener
     {
         this.puzzle = puzzle;
         size = puzzle.getSize();
-
+        gridSize = size * BOXSIZE;
         WINDOWSIZE = size * BOXSIZE + 2 * OFFSET;
 
         sc = new SimpleCanvas("Aquarium Game", WINDOWSIZE, WINDOWSIZE, BACK_COLOUR);
         sc.addMouseListener(this);
-        fontSize(2);
-        fontBold();
 
-
-        displayGrid();
-        displayNumbers();
-        displayAquariums();
-        displayButtons();
+        displayPuzzle();
         // TODO 8
     }
     
@@ -116,6 +111,10 @@ public class AquariumViewer implements MouseListener
      */
     private void displayPuzzle()
     {
+        displayGrid();
+        displayNumbers();
+        displayAquariums();
+        displayButtons();
         // TODO 13
     }
     
@@ -143,11 +142,14 @@ public class AquariumViewer implements MouseListener
      */
     public void displayNumbers()
     {
+        fontSize(2);
+        fontBold();
         // display column numbers
         for (int i = 0; i < size; i++) {
             int changingNumberPosition = OFFSET + BOXSIZE / 2 + i * BOXSIZE - 10;
             sc.drawString(puzzle.getColumnTotals()[i], changingNumberPosition, OFFSET - 15, GRID_COLOUR);
         }
+
 
         // display row numbers
         for (int i = 0; i < size; i++) {
@@ -165,7 +167,6 @@ public class AquariumViewer implements MouseListener
         int[][] aquariums = puzzle.getAquariums();
 
         int marginSize = BOXSIZE * 5 / 100;
-        int gridSize = size * BOXSIZE;
 
         // border top
         sc.drawRectangle(OFFSET - marginSize, OFFSET - marginSize, OFFSET + gridSize + marginSize, OFFSET + marginSize, BORDER_COLOUR);
@@ -179,11 +180,11 @@ public class AquariumViewer implements MouseListener
         // border right
         sc.drawRectangle(OFFSET + gridSize - marginSize, OFFSET - marginSize, OFFSET + gridSize + marginSize, OFFSET + gridSize + marginSize, BORDER_COLOUR);
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                sc.drawString(aquariums[i][j], OFFSET + BOXSIZE * j + BOXSIZE / 2 - 10, OFFSET + BOXSIZE * i + BOXSIZE / 2 + 10, GRID_COLOUR);
-            }
-        }
+//        for (int i = 0; i < size; i++) {
+//            for (int j = 0; j < size; j++) {
+//                sc.drawString(aquariums[i][j], OFFSET + BOXSIZE * j + BOXSIZE / 2 - 10, OFFSET + BOXSIZE * i + BOXSIZE / 2 + 10, GRID_COLOUR);
+//            }
+//        }
 
         // compares each adjacent element in row and column and draws border lines
         for (int i = 0; i < aquariums.length; i++){
@@ -208,6 +209,23 @@ public class AquariumViewer implements MouseListener
      */
     public void displayButtons()
     {
+        int solvedX1 = OFFSET - 10;
+        int solvedX2 = OFFSET + 105;
+        int solvedY1 = WINDOWSIZE - OFFSET + 15;
+        int solvedY2 = WINDOWSIZE - OFFSET + 50;
+
+        int clearX1 = WINDOWSIZE - 2 * OFFSET + 20;
+        int clearX2 = WINDOWSIZE - OFFSET + 10;
+        int clearY1 = WINDOWSIZE - OFFSET + 15;
+        int clearY2 = WINDOWSIZE - OFFSET + 50;
+
+        fontSize(0.8);
+        fontBold();
+        sc.drawRectangle(solvedX1, solvedY1, solvedX2, solvedY2, Color.decode("#D5E7FF"));
+        sc.drawString("SOLVED?", OFFSET, WINDOWSIZE - OFFSET + 40, GRID_COLOUR);
+
+        sc.drawRectangle(clearX1, clearY1, clearX2, clearY2, Color.decode("#D5E7FF"));
+        sc.drawString("CLEAR", WINDOWSIZE - 2 * OFFSET + 30, WINDOWSIZE - OFFSET + 40, GRID_COLOUR);
         // TODO 12
     }
     

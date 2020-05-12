@@ -251,21 +251,16 @@ public class AquariumViewer implements MouseListener
         int left = OFFSET + r * BOXSIZE;
         int right = OFFSET + (r + 1) * BOXSIZE;
 
-        Color colour = BACK_COLOUR;
-        switch (space){
-            case WATER:
-                colour = WATER_COLOUR;
-                break;
-            case AIR:
-                colour = AIR_COLOUR;
-                break;
-            case EMPTY:
-                colour = BACK_COLOUR;
-                break;
+        if (space == Space.WATER) {
+            sc.drawRectangle(left, top, right, bot, WATER_COLOUR);
         }
-
-        sc.drawRectangle(left, top, right, bot, colour);
-
+        else if (space == Space.AIR) {
+            sc.drawRectangle(left, top, right, bot, BACK_COLOUR);
+            sc.drawCircle((left + right) / 2, (top + bot) / 2, 10, AIR_COLOUR);
+        }
+        else if (space == Space.EMPTY) {
+            sc.drawRectangle(left, top, right, bot, BACK_COLOUR);
+        }
         // TODO 14
     }
 
@@ -303,19 +298,19 @@ public class AquariumViewer implements MouseListener
     public void mousePressed(MouseEvent e) 
     {
         if (SwingUtilities.isLeftMouseButton(e)){
-            if (clearClicked(e.getX(), e.getY())){
-                puzzle.clear();
-                displayPuzzle();
-                System.out.println("The screen will get cleared!");
-            }
-            if (solvedClicked(e.getX(), e.getY())){
-                System.out.println("The answer will be checked!");
-            }
             if (boxClicked(e.getX(), e.getY())){
                 int xCell = (e.getX() - OFFSET) / BOXSIZE;
                 int yCell = (e.getY() - OFFSET) / BOXSIZE;
                 puzzle.leftClick(xCell, yCell);
                 displayPuzzle();
+            }
+            else if (clearClicked(e.getX(), e.getY())){
+                puzzle.clear();
+                displayPuzzle();
+                System.out.println("The screen will get cleared!");
+            }
+            else if (solvedClicked(e.getX(), e.getY())){
+                System.out.println("The answer will be checked!");
             }
         }
         else if (SwingUtilities.isRightMouseButton(e)) {

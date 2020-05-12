@@ -22,6 +22,7 @@ public class AquariumViewer implements MouseListener
 
     private final static Color BACK_COLOUR = Color.white;
     private final static Color GRID_COLOUR = Color.black;
+    private final static Color BORDER_COLOUR = Color.red;
 
 
 
@@ -40,6 +41,7 @@ public class AquariumViewer implements MouseListener
         sc.addMouseListener(this);
         fontSize(2);
         fontBold();
+
 
         displayGrid();
         displayNumbers();
@@ -160,6 +162,44 @@ public class AquariumViewer implements MouseListener
      */
     public void displayAquariums()
     {
+        int[][] aquariums = puzzle.getAquariums();
+
+        int marginSize = BOXSIZE * 5 / 100;
+        int gridSize = size * BOXSIZE;
+
+        // border top
+        sc.drawRectangle(OFFSET - marginSize, OFFSET - marginSize, OFFSET + gridSize + marginSize, OFFSET + marginSize, BORDER_COLOUR);
+
+        // border bottom
+        sc.drawRectangle(OFFSET - marginSize, OFFSET + gridSize - marginSize, OFFSET + gridSize + marginSize, OFFSET + gridSize + marginSize, BORDER_COLOUR);
+
+        // border left
+        sc.drawRectangle(OFFSET - marginSize, OFFSET - marginSize, OFFSET + marginSize, OFFSET + gridSize + marginSize, BORDER_COLOUR);
+        
+        // border right
+        sc.drawRectangle(OFFSET + gridSize - marginSize, OFFSET - marginSize, OFFSET + gridSize + marginSize, OFFSET + gridSize + marginSize, BORDER_COLOUR);
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                sc.drawString(aquariums[i][j], OFFSET + BOXSIZE * j + BOXSIZE / 2 - 10, OFFSET + BOXSIZE * i + BOXSIZE / 2 + 10, GRID_COLOUR);
+            }
+        }
+
+        // compares each adjacent element in row and column and draws border lines
+        for (int i = 0; i < aquariums.length; i++){
+            for (int j = 0; j < aquariums[i].length; j++) {
+
+                // makes vertical border lines of aquarium
+                if ((j + 1) < aquariums[i].length && !(aquariums[i][j] == aquariums[i][j+1])){
+                    sc.drawRectangle(OFFSET + (j + 1) * BOXSIZE - marginSize, OFFSET + i * BOXSIZE - marginSize, OFFSET + (j + 1) * BOXSIZE + marginSize, OFFSET + (i + 1) * BOXSIZE + marginSize, BORDER_COLOUR);
+                }
+
+                // makes horizontal border lines of aquarium
+                if ((j + 1) < aquariums[i].length && !(aquariums[j][i] == aquariums[j+1][i])){
+                    sc.drawRectangle(OFFSET + i * BOXSIZE - marginSize, OFFSET + (j + 1) * BOXSIZE - marginSize, OFFSET + (i + 1) * BOXSIZE + marginSize, OFFSET + (j + 1) * BOXSIZE + marginSize, BORDER_COLOUR);
+                }
+            }
+        }
         // TODO 11
     }
     

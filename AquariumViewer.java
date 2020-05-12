@@ -189,12 +189,6 @@ public class AquariumViewer implements MouseListener
         // border right
         sc.drawRectangle(OFFSET + gridSize - marginSize, OFFSET - marginSize, OFFSET + gridSize + marginSize, OFFSET + gridSize + marginSize, BORDER_COLOUR);
 
-//        for (int i = 0; i < size; i++) {
-//            for (int j = 0; j < size; j++) {
-//                sc.drawString(aquariums[i][j], OFFSET + BOXSIZE * j + BOXSIZE / 2 - 10, OFFSET + BOXSIZE * i + BOXSIZE / 2 + 10, GRID_COLOUR);
-//            }
-//        }
-
         // compares each adjacent element in row and column and draws border lines
         for (int i = 0; i < aquariums.length; i++){
             for (int j = 0; j < aquariums[i].length; j++) {
@@ -271,20 +265,20 @@ public class AquariumViewer implements MouseListener
 
     private boolean solvedClicked(int r, int c)
     {
-        int solvedX1 = OFFSET - 10 + 5;
-        int solvedX2 = OFFSET + 105 - 5;
-        int solvedY1 = WINDOWSIZE - OFFSET + 15 + 5;
-        int solvedY2 = WINDOWSIZE - OFFSET + 50 - 5;
+        int solvedX1 = OFFSET - 10;
+        int solvedX2 = OFFSET + 105;
+        int solvedY1 = WINDOWSIZE - OFFSET + 15;
+        int solvedY2 = WINDOWSIZE - OFFSET + 50;
 
         return (solvedX1 < r && r < solvedX2 && solvedY1 < c && c < solvedY2);
     }
 
     private boolean clearClicked (int r, int c)
     {
-        int clearX1 = WINDOWSIZE - 2 * OFFSET + 20 + 5;
-        int clearX2 = WINDOWSIZE - OFFSET + 10 - 5;
-        int clearY1 = WINDOWSIZE - OFFSET + 15 + 5;
-        int clearY2 = WINDOWSIZE - OFFSET + 50 - 5;
+        int clearX1 = WINDOWSIZE - 2 * OFFSET + 20;
+        int clearX2 = WINDOWSIZE - OFFSET + 10;
+        int clearY1 = WINDOWSIZE - OFFSET + 15;
+        int clearY2 = WINDOWSIZE - OFFSET + 50;
 
         return (clearX1 < r && r < clearX2 && clearY1 < c && c < clearY2);
     }
@@ -299,9 +293,9 @@ public class AquariumViewer implements MouseListener
     {
         if (SwingUtilities.isLeftMouseButton(e)){
             if (boxClicked(e.getX(), e.getY())){
-                int xCell = (e.getX() - OFFSET) / BOXSIZE;
-                int yCell = (e.getY() - OFFSET) / BOXSIZE;
-                puzzle.leftClick(xCell, yCell);
+                int xBox = (e.getX() - OFFSET) / BOXSIZE;
+                int yBox = (e.getY() - OFFSET) / BOXSIZE;
+                puzzle.leftClick(xBox, yBox);
                 displayPuzzle();
             }
             else if (clearClicked(e.getX(), e.getY())){
@@ -310,14 +304,20 @@ public class AquariumViewer implements MouseListener
                 System.out.println("The screen will get cleared!");
             }
             else if (solvedClicked(e.getX(), e.getY())){
+
+                // this is yet to be completed...
+
+
+//                String solution = CheckSolution.isSolution(puzzle);
+//                sc.drawString(solution, 15, 50, GRID_COLOUR);
                 System.out.println("The answer will be checked!");
             }
         }
         else if (SwingUtilities.isRightMouseButton(e)) {
             if (boxClicked(e.getX(), e.getY())) {
-                int xCell = (e.getX() - OFFSET) / BOXSIZE;
-                int yCell = (e.getY() - OFFSET) / BOXSIZE;
-                puzzle.rightClick(xCell, yCell);
+                int xBox = (e.getX() - OFFSET) / BOXSIZE;
+                int yBox = (e.getY() - OFFSET) / BOXSIZE;
+                puzzle.rightClick(xBox, yBox);
                 displayPuzzle();
             }
         }

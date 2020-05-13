@@ -20,13 +20,13 @@ public class CheckSolution
      */
     public static int[] rowCounts(Aquarium p)
     {
-        Space[][] space = p.getSpaces();
+        Space[][] spaces = p.getSpaces();
         int waterCount = 0;
-        int[] totalRowWaterCount = new int[space.length];
+        int[] totalRowWaterCount = new int[spaces.length];
 
-        for (int i = 0; i < space.length; i++){
-            for (int j = 0; j < space[0].length; j++){
-                if (space[i][j] == Space.WATER){
+        for (int i = 0; i < spaces.length; i++){
+            for (int j = 0; j < spaces[0].length; j++){
+                if (spaces[i][j] == Space.WATER){
                     waterCount++;
                 }
             }
@@ -44,13 +44,13 @@ public class CheckSolution
      */
     public static int[] columnCounts(Aquarium p)
     {
-        Space[][] space = p.getSpaces();
+        Space[][] spaces = p.getSpaces();
         int waterCount = 0;
-        int[] totalColumnWaterCount = new int[space.length];
+        int[] totalColumnWaterCount = new int[spaces.length];
 
-        for (int i = 0; i < space.length; i++){
-            for (int j = 0; j < space[0].length; j++){
-                if (space[j][i] == Space.WATER){
+        for (int i = 0; i < spaces.length; i++){
+            for (int j = 0; j < spaces[0].length; j++){
+                if (spaces[j][i] == Space.WATER){
                     waterCount++;
                 }
             }
@@ -74,8 +74,38 @@ public class CheckSolution
      */
     public static int[] rowStatus(Aquarium p, int t, int r)
     {
+        int status=0;
+        int[] rowStatus = new int[]{0,-1};
+
+        for (int i = 0; i < p.getSize(); i++){
+            if(p.getAquariums()[r][i] == t) {
+                rowStatus[1]=i;
+                if (i > 0) {
+                    if (p.getSpaces()[r][i] == Space.WATER && p.getSpaces()[r][i-1] == Space.WATER){
+                        status = 1;
+                    }
+                    else {
+                        if (p.getSpaces()[r][i] != Space.WATER && p.getSpaces()[r][i-1]!= Space.WATER){
+                            status = 2;
+                        }
+                        else {
+                            status = 3;
+                        }
+                    }
+                }
+                else {
+                    if(p.getSpaces()[r][i] == Space.WATER){
+                        status = 1;
+                    }
+                    else if (p.getSpaces()[r][i] != Space.WATER) {
+                        status = 2;
+                    }
+                }
+            }
+            rowStatus[0] = status;
+        }
+        return rowStatus;
         // TODO 18
-        return null;
     }
     
     /**

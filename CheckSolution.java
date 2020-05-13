@@ -97,6 +97,7 @@ public class CheckSolution
                 spaces.add(p.getSpaces()[r][y]);
             }
 
+            // setting status
             if (!spaces.isEmpty() && spaces.stream().allMatch(Space.WATER::equals)){
                 status = 1;
             }
@@ -147,8 +148,48 @@ public class CheckSolution
      */
     public static String isSolution(Aquarium p)
     {
+        int noOfAquariums = p.getAquariums() [p.getSize() - 1] [p.getSize() - 1];
+        boolean allAquariumsOK = true;
+        String feedback = "";
+        String wrongAquarium = "";
+        String threeTicks = "\u2713\u2713\u2713";
+
+        for(int i = 0; i <= noOfAquariums; i++) {
+            if (!isAquariumOK(p, i).equals("")) {
+                allAquariumsOK = false;
+                wrongAquarium = isAquariumOK(p, i);
+            }
+        }
+
+        if(p.getRowTotals() == rowCounts(p) && p.getColumnTotals() == columnCounts(p) && allAquariumsOK){
+            feedback = threeTicks;
+        }
+        else if (!Arrays.equals(p.getColumnTotals(), columnCounts(p))){
+            int wrongColumn = 0;
+            for (int i = 0; i < p.getColumnTotals().length; i++){
+                if (p.getColumnTotals()[i] != columnCounts(p)[i]){
+                    wrongColumn = i;
+                }
+            }
+            feedback = "Column " + wrongColumn + " is wrong";
+        }
+        else if (!Arrays.equals(p.getRowTotals(), rowCounts(p))){
+            int wrongRow = 0;
+            for (int i = 0; i < p.getRowTotals().length; i++){
+                if (p.getRowTotals()[i] != rowCounts(p)[i]){
+                    wrongRow = i;
+                }
+            }
+            feedback = "Row " + wrongRow + " is wrong";
+        }
+        else if (!allAquariumsOK) {
+            feedback = "The aquarium at " + wrongAquarium + " is wrong";
+        }
+
+
+        return feedback;
 
         // TODO 20
-        return null;
+//        return null;
     }
 }

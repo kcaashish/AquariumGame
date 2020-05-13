@@ -77,7 +77,7 @@ public class CheckSolution
      */
     public static int[] rowStatus(Aquarium p, int t, int r)
     {
-        int status=0;
+        int status;
         int[] rowStatus = new int[]{0,-1};
         ArrayList<Integer> columnElement = new ArrayList<>();
 
@@ -127,16 +127,18 @@ public class CheckSolution
     {
         String ok = "";
 
-        for (int i = 0; i < p.getSize(); i++){
+        for (int i = 0; i < p.getAquariums()[0].length; i++){
             if (rowStatus(p, t, i)[0] == 3){
                 ok = i + "," + rowStatus(p, t, i)[1];
             }
-            else if (i > 0){
-                if (rowStatus(p, t, i)[0] == 2 && rowStatus(p, t, i - 1)[0] == 1){
-                    ok = i + "," + rowStatus(p, t, i - 1)[1];
+            else {
+                if (rowStatus(p, t, i)[0] == 3){
+                    ok = i + "," + rowStatus(p, t, i)[1];
                 }
-                else{
-                    return ok;
+                if (((i + 1) < p.getAquariums()[0].length) && rowStatus(p, t, i+1)[0] == 2 && rowStatus(p, t, i)[0] == 1){
+                    if(rowStatus(p, t, i)[1] == rowStatus(p, t, i)[1]) {
+                        ok = i + "," + rowStatus(p, t, i)[1];
+                    }
                 }
             }
         }

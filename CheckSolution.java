@@ -6,7 +6,8 @@
  * @author Aashish K.C.
  * @version 2020
  */
-import java.util.Arrays; 
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CheckSolution
 {
@@ -24,6 +25,7 @@ public class CheckSolution
         int waterCount = 0;
         int[] totalRowWaterCount = new int[spaces.length];
 
+        // matches with column numbers counting top to down
         for (int i = 0; i < spaces.length; i++){
             for (int j = 0; j < spaces[0].length; j++){
                 if (spaces[i][j] == Space.WATER){
@@ -48,6 +50,7 @@ public class CheckSolution
         int waterCount = 0;
         int[] totalColumnWaterCount = new int[spaces.length];
 
+        // matches with row numbers counting left to right
         for (int i = 0; i < spaces.length; i++){
             for (int j = 0; j < spaces[0].length; j++){
                 if (spaces[j][i] == Space.WATER){
@@ -76,34 +79,39 @@ public class CheckSolution
     {
         int status=0;
         int[] rowStatus = new int[]{0,-1};
+        ArrayList<Integer> columnElement = new ArrayList<>();
 
-        for (int i = 0; i < p.getSize(); i++){
-            if(p.getAquariums()[r][i] == t) {
-                rowStatus[1]=i;
-                if (i > 0) {
-                    if (p.getSpaces()[r][i] == Space.WATER && p.getSpaces()[r][i-1] == Space.WATER){
-                        status = 1;
-                    }
-                    else {
-                        if (p.getSpaces()[r][i] != Space.WATER && p.getSpaces()[r][i-1]!= Space.WATER){
-                            status = 2;
-                        }
-                        else {
-                            status = 3;
-                        }
-                    }
+        for(int i = 0; i < p.getSize(); i++) {
+            for (int j = 0; j < p.getSize(); j++) {
+                if (p.getAquariums()[r][j] == t) {
+                    columnElement.add(j);
                 }
-                else {
-                    if(p.getSpaces()[r][i] == Space.WATER){
-                        status = 1;
-                    }
-                    else if (p.getSpaces()[r][i] != Space.WATER) {
-                        status = 2;
-                    }
-                }
+            }
+
+            ArrayList<Space> spaces = new ArrayList<>();
+
+            for (int y : columnElement) {
+                rowStatus[1] = y;
+
+                // should actually use y , r
+                spaces.add(p.getSpaces()[r][y]);
+            }
+
+            if (!spaces.isEmpty() && spaces.stream().allMatch(Space.WATER::equals)){
+                status = 1;
+            }
+            else if (!spaces.isEmpty() && spaces.stream().noneMatch(Space.WATER::equals)){
+                status = 2;
+            }
+            else if (spaces.isEmpty()){
+                status = 0;
+            }
+            else {
+                status = 3;
             }
             rowStatus[0] = status;
         }
+
         return rowStatus;
         // TODO 18
     }
@@ -117,8 +125,23 @@ public class CheckSolution
      */
     public static String isAquariumOK(Aquarium p, int t)
     {
+        String ok = "";
+
+        for (int i = 0; i < p.getSize(); i++){
+            if (rowStatus(p, t, i)[0] == 3){
+                ok = i + "," + rowStatus(p, t, i)[1];
+            }
+            else if (i > 0){
+                if (rowStatus(p, t, i)[0] == 2 && rowStatus(p, t, i - 1)[0] == 1){
+                    ok = i + "," + rowStatus(p, t, i - 1)[1];
+                }
+                else{
+                    return ok;
+                }
+            }
+        }
         // TODO 19
-        return null;
+        return ok;
     }
     
     /**

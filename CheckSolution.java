@@ -111,7 +111,6 @@ public class CheckSolution
             }
             rowStatus[0] = status;
         }
-
         return rowStatus;
         // TODO 18
     }
@@ -131,15 +130,8 @@ public class CheckSolution
             if (rowStatus(p, t, i)[0] == 3){
                 ok = i + "," + rowStatus(p, t, i)[1];
             }
-            else {
-                if (rowStatus(p, t, i)[0] == 3){
-                    ok = i + "," + rowStatus(p, t, i)[1];
-                }
-                if (((i + 1) < p.getAquariums()[0].length) && rowStatus(p, t, i+1)[0] == 2 && rowStatus(p, t, i)[0] == 1){
-                    if(rowStatus(p, t, i)[1] == rowStatus(p, t, i)[1]) {
-                        ok = i + "," + rowStatus(p, t, i)[1];
-                    }
-                }
+            else if (((i + 1) < p.getAquariums()[0].length) && rowStatus(p, t, i+1)[0] == 2 && rowStatus(p, t, i)[0] == 1){
+                ok = i + "," + rowStatus(p, t, i)[1];
             }
         }
         // TODO 19
@@ -155,6 +147,7 @@ public class CheckSolution
      */
     public static String isSolution(Aquarium p)
     {
+
         // TODO 20
         return null;
     }

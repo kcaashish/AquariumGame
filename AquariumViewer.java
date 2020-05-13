@@ -310,6 +310,10 @@ public class AquariumViewer implements MouseListener
 
 //                String solution = CheckSolution.isSolution(puzzle);
 //                sc.drawString(solution, 15, 50, GRID_COLOUR);
+//                int[] solution = CheckSolution.rowCounts(puzzle);
+//                for(int i: solution) {
+//                    System.out.print(i+ ",");
+//                }
                 System.out.println("The answer will be checked!");
             }
         }

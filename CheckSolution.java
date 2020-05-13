@@ -20,8 +20,23 @@ public class CheckSolution
      */
     public static int[] rowCounts(Aquarium p)
     {
+        Space[][] space = p.getSpaces();
+        int waterCount = 0;
+        int[] totalRowWaterCount = new int[space.length];
+
+        for (int i = 0; i < space.length; i++){
+            for (int j = 0; j < space[0].length; j++){
+                if (space[i][j] == Space.WATER){
+                    waterCount++;
+                }
+            }
+            totalRowWaterCount[i] = waterCount;
+            waterCount = 0;
+        }
         // TODO 16
-        return null;
+        return totalRowWaterCount;
+
+
     }
     
     /**
@@ -29,8 +44,22 @@ public class CheckSolution
      */
     public static int[] columnCounts(Aquarium p)
     {
+        Space[][] space = p.getSpaces();
+        int waterCount = 0;
+        int[] totalColumnWaterCount = new int[space.length];
+
+        for (int i = 0; i < space.length; i++){
+            for (int j = 0; j < space[0].length; j++){
+                if (space[j][i] == Space.WATER){
+                    waterCount++;
+                }
+            }
+            totalColumnWaterCount[i] = waterCount;
+            waterCount = 0;
+        }
+
         // TODO 17
-        return null;
+        return totalColumnWaterCount;
     }
     
     /**

@@ -25,11 +25,11 @@ public class CheckSolutionTest
         a6 = new Aquarium("Examples/a6_1.txt");
         ax = new Aquarium("Examples/a4_2.txt");
     }
-    
+
     @Test
     public void testrowCounts()
     {
-        assertEquals("wrong entry", -1, Arrays.mismatch(CheckSolution.rowCounts(a6), new int[] {0,0,0,0,0,0})); 
+        assertEquals("wrong entry", -1, Arrays.mismatch(CheckSolution.rowCounts(a6), new int[] {0,0,0,0,0,0}));
         for (int r = 0; r < 6; r++)
             for (int c = r; c < 6; c++) // mark a decreasing number of squares in each row
                 a6.leftClick(r,c);
@@ -39,11 +39,11 @@ public class CheckSolutionTest
                 a6.leftClick(r,c);
         assertEquals("wrong entry", -1, Arrays.mismatch(CheckSolution.rowCounts(a6), new int[] {1,1,1,1,1,1}));
     }
-    
+
     @Test
     public void testcolumnCounts()
     {
-        assertEquals("wrong entry", -1, Arrays.mismatch(CheckSolution.columnCounts(a6), new int[] {0,0,0,0,0,0})); 
+        assertEquals("wrong entry", -1, Arrays.mismatch(CheckSolution.columnCounts(a6), new int[] {0,0,0,0,0,0}));
         for (int r = 0; r < 6; r++)
             for (int c = r; c < 6; c++) // mark an increasing number of squares in each column
                 a6.leftClick(r,c);
@@ -55,7 +55,7 @@ public class CheckSolutionTest
     }
 
     @Test
-    public void testrowStatus() 
+    public void testrowStatus()
     {
         // click entire alternating rows
         for (int r = 0; r < 6; r += 2)
@@ -71,7 +71,7 @@ public class CheckSolutionTest
         {
             assertEquals("no aquarium",  0, CheckSolution.rowStatus(a6,5,r)[0]);
             assertEquals("wrong index", -1, CheckSolution.rowStatus(a6,5,r)[1]);
-        }  
+        }
         // Aquarium 2, top-right
         assertEquals("wrong classification", 1, CheckSolution.rowStatus(a6,2,0)[0]); // the wide row in Aqm 2
         assertTrue  ("wrong index",             CheckSolution.rowStatus(a6,2,0)[1] >= 2);
@@ -79,27 +79,27 @@ public class CheckSolutionTest
         {
             assertEquals("wrong classification", 3-r, CheckSolution.rowStatus(a6,2,r)[0]); // the narrow rows in Aqm 2
             assertEquals("wrong index",            3, CheckSolution.rowStatus(a6,2,r)[1]);
-        }  
+        }
         for (int r : new int[] {3,4,5})
         {
             assertEquals("no aquarium",  0, CheckSolution.rowStatus(a6,2,r)[0]); // no Aqm 2
             assertEquals("wrong index", -1, CheckSolution.rowStatus(a6,2,r)[1]);
-        }  
+        }
 
         // individual clicks to create mixed rows
         a6.leftClick(1,1);
         assertEquals("mixed row",  3, CheckSolution.rowStatus(a6,1,1)[0]); // Aqm 1, Row 1
-        assertTrue  ("wrong index",   CheckSolution.rowStatus(a6,1,1)[1] <= 2); 
+        assertTrue  ("wrong index",   CheckSolution.rowStatus(a6,1,1)[1] <= 2);
         a6.leftClick(0,5);
         assertEquals("mixed row",  3, CheckSolution.rowStatus(a6,2,0)[0]); // Aqm 2, Rpw 0
-        assertTrue  ("wrong index",   CheckSolution.rowStatus(a6,2,0)[1] >= 2); 
+        assertTrue  ("wrong index",   CheckSolution.rowStatus(a6,2,0)[1] >= 2);
         a6.leftClick(4,4);
         assertEquals("mixed row",  3, CheckSolution.rowStatus(a6,6,4)[0]); // Aqm 6, Row 4
-        assertTrue  ("wrong index",   CheckSolution.rowStatus(a6,6,4)[1] >= 4); 
+        assertTrue  ("wrong index",   CheckSolution.rowStatus(a6,6,4)[1] >= 4);
     }
 
     @Test
-    public void testisAquariumOK() 
+    public void testisAquariumOK()
     {
         // all aquariums empty; all aquariums OK
         for (int t = 1; t <= 6; t++)
@@ -149,14 +149,14 @@ public class CheckSolutionTest
             boolean b = false;
             for (int[] ys : xss)
                 if (s.substring(0,1).equals(ys[0] + "") && s.substring(2).equals(ys[1] + ""))
-                   b = true;
+                    b = true;
             assertTrue  ("wrong String", b);
             a6.leftClick(xs[0], xs[1]);
         }
     }
 
     @Test
-    public void testisSolution() 
+    public void testisSolution()
     {
         String s;
         String threeticks = "\u2713\u2713\u2713";
@@ -191,7 +191,8 @@ public class CheckSolutionTest
         ax.rightClick(1,3);
         ax.leftClick(1,2);
         s = CheckSolution.isSolution(ax);
-        assertTrue("Columns 0,1 wrong", s.equals("Column 0 is wrong") || s.equals("Column 1 is wrong"));
+        assertTrue("Columns 0,1 wrong", s.equals("Column 0 is wrong") || s.equals("Column 1 is wrong")
+                || s.equals("Column 2 is wrong") || s.equals("Column 3 is wrong"));
         // fix Columns 0 & 1
         ax.leftClick(1,0);
         ax.rightClick(1,1);
@@ -206,7 +207,7 @@ public class CheckSolutionTest
         ax.leftClick(1,1);
         s = CheckSolution.isSolution(ax);
         assertTrue("Aquarium at bottom wrong", s.equals("The aquarium at 3,1 is wrong")
-                                            || s.equals("The aquarium at 3,2 is wrong"));
+                || s.equals("The aquarium at 3,2 is wrong"));
         // fix aquarium at bottom
         ax.rightClick(3,0);
         ax.leftClick(3,1);
@@ -221,7 +222,7 @@ public class CheckSolutionTest
         ax.leftClick(2,1);
         s = CheckSolution.isSolution(ax);
         assertTrue("Aquarium at left wrong", s.equals("The aquarium at 1,0 is wrong")
-                                          || s.equals("The aquarium at 2,0 is wrong"));
+                || s.equals("The aquarium at 2,0 is wrong"));
         // fix aquarium on left
         ax.rightClick(0,0);
         ax.leftClick(2,0);

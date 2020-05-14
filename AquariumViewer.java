@@ -26,6 +26,7 @@ public class AquariumViewer implements MouseListener
     private final static Color BORDER_COLOUR = Color.red;
     private final static Color WATER_COLOUR = Color.cyan;
     private final static Color AIR_COLOUR = Color.pink;
+    private final static Color BUTTON_COLOUR = Color.decode("#6CB5BD");
 
 
     public static void main(String[] args) {
@@ -47,8 +48,6 @@ public class AquariumViewer implements MouseListener
         sc.addMouseListener(this);
 
         displayPuzzle();
-        displayNumbers();
-        displayButtons();
         // TODO 8
     }
     
@@ -72,10 +71,10 @@ public class AquariumViewer implements MouseListener
     /**
      * Increases the font size by a factor x.
      */
-    private void fontSize(double x)
+    private void fontSize(int x)
     {
-        sc.setFont(sc.getFont()
-                .deriveFont((float) (sc.getFont().getSize() * x)));
+//        sc.setFont(sc.getFont().deriveFont((float) (sc.getFont().getSize() * x)));
+        sc.setFont(new Font(sc.getFont().getFontName(), Font.BOLD, x));
     }
 
     /**
@@ -125,6 +124,9 @@ public class AquariumViewer implements MouseListener
         }
         displayGrid();
         displayAquariums();
+        fontSize(20);
+        displayNumbers();
+        displayButtons();
         // TODO 13
     }
     
@@ -152,9 +154,6 @@ public class AquariumViewer implements MouseListener
      */
     public void displayNumbers()
     {
-        fontSize(2);
-        fontBold();
-
         // display column numbers
         for (int i = 0; i < size; i++) {
             int changingNumberPosition = OFFSET + BOXSIZE / 2 + i * BOXSIZE - 10;
@@ -213,7 +212,7 @@ public class AquariumViewer implements MouseListener
     public void displayButtons()
     {
         int solvedX1 = OFFSET - 10;
-        int solvedX2 = OFFSET + 105;
+        int solvedX2 = OFFSET + 108;
         int solvedY1 = WINDOWSIZE - OFFSET + 15;
         int solvedY2 = WINDOWSIZE - OFFSET + 50;
 
@@ -222,12 +221,10 @@ public class AquariumViewer implements MouseListener
         int clearY1 = WINDOWSIZE - OFFSET + 15;
         int clearY2 = WINDOWSIZE - OFFSET + 50;
 
-        fontSize(0.8);
-        fontBold();
-        sc.drawRectangle(solvedX1, solvedY1, solvedX2, solvedY2, Color.decode("#D5E7FF"));
+        sc.drawRectangle(solvedX1, solvedY1, solvedX2, solvedY2, BUTTON_COLOUR);
         sc.drawString("SOLVED?", OFFSET, WINDOWSIZE - OFFSET + 40, GRID_COLOUR);
 
-        sc.drawRectangle(clearX1, clearY1, clearX2, clearY2, Color.decode("#D5E7FF"));
+        sc.drawRectangle(clearX1, clearY1, clearX2, clearY2, BUTTON_COLOUR);
         sc.drawString("CLEAR", WINDOWSIZE - 2 * OFFSET + 30, WINDOWSIZE - OFFSET + 40, GRID_COLOUR);
         // TODO 12
     }
@@ -300,20 +297,16 @@ public class AquariumViewer implements MouseListener
             }
             else if (clearClicked(e.getX(), e.getY())){
                 puzzle.clear();
+                sc.drawRectangle(0, 0, WINDOWSIZE, WINDOWSIZE, BACK_COLOUR);
                 displayPuzzle();
                 System.out.println("The screen will get cleared!");
             }
             else if (solvedClicked(e.getX(), e.getY())){
-
-                // this is yet to be completed...
-
-
-//                String solution = CheckSolution.isSolution(puzzle);
-//                sc.drawString(solution, 15, 50, GRID_COLOUR);
-//                int[] solution = CheckSolution.rowCounts(puzzle);
-//                for(int i: solution) {
-//                    System.out.print(i+ ",");
-//                }
+                fontSize(15);
+                String solution = CheckSolution.isSolution(puzzle);
+                sc.drawRectangle(0, 0, WINDOWSIZE, WINDOWSIZE, BACK_COLOUR);
+                sc.drawString(solution, OFFSET, WINDOWSIZE - 20, GRID_COLOUR);
+                displayPuzzle();
                 System.out.println("The answer will be checked!");
             }
         }

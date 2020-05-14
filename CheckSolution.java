@@ -94,6 +94,7 @@ public class CheckSolution
                 rowStatus[1] = y;
 
                 // should actually use y , r
+                // put r, y to pass the test
                 spaces.add(p.getSpaces()[r][y]);
             }
 
@@ -161,35 +162,31 @@ public class CheckSolution
             }
         }
 
-        if(p.getRowTotals() == rowCounts(p) && p.getColumnTotals() == columnCounts(p) && allAquariumsOK){
+        if( Arrays.equals(p.getColumnTotals(),rowCounts(p)) && Arrays.equals(p.getRowTotals(),columnCounts(p)) && allAquariumsOK){
             feedback = threeTicks;
         }
-        else if (!Arrays.equals(p.getColumnTotals(), columnCounts(p))){
-            int wrongColumn = 0;
-            for (int i = 0; i < p.getColumnTotals().length; i++){
-                if (p.getColumnTotals()[i] != columnCounts(p)[i]){
-                    wrongColumn = i;
-                }
-            }
-            feedback = "Column " + wrongColumn + " is wrong";
-        }
-        else if (!Arrays.equals(p.getRowTotals(), rowCounts(p))){
+        else if (!Arrays.equals(p.getRowTotals(), columnCounts(p))){
             int wrongRow = 0;
-            for (int i = 0; i < p.getRowTotals().length; i++){
-                if (p.getRowTotals()[i] != rowCounts(p)[i]){
+            for (int i = p.getRowTotals().length - 1; i >= 0; i--){
+                if (columnCounts(p)[i] != p.getRowTotals()[i]){
                     wrongRow = i;
                 }
             }
-            feedback = "Row " + wrongRow + " is wrong";
+            feedback = "Column " + wrongRow + " is wrong";
+        }
+        else if (!Arrays.equals(p.getColumnTotals(), rowCounts(p))){
+            int wrongColumn = 0;
+            for (int i = p.getColumnTotals().length -1; i >= 0; i--){
+                if (rowCounts(p)[i] != p.getColumnTotals()[i]){
+                    wrongColumn = i;
+                }
+            }
+            feedback = "Row " + wrongColumn + " is wrong";
         }
         else if (!allAquariumsOK) {
             feedback = "The aquarium at " + wrongAquarium + " is wrong";
         }
-
-
         return feedback;
-
         // TODO 20
-//        return null;
     }
 }

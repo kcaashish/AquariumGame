@@ -129,7 +129,7 @@ public class AquariumViewer implements MouseListener
         fontSize(20);
         displayNumbers();
         displayButtons();
-        changeRNumberColour();
+        changeNumberColour();
         // TODO 13
     }
     
@@ -283,17 +283,26 @@ public class AquariumViewer implements MouseListener
         return (clearX1 < r && r < clearX2 && clearY1 < c && c < clearY2);
     }
 
-    public void changeRNumberColour()
+    public void changeNumberColour()
     {
         int[] rowCounts = CheckSolution.rowCounts(puzzle);
         int[] rowTotal = puzzle.getRowTotals();
-        int wrongRow;
+        int[] columnCounts = CheckSolution.columnCounts(puzzle);
+        int[] columnTotal = puzzle.getColumnTotals();
 
         if (!Arrays.equals(rowTotal, rowCounts)) {
             for (int i = 0; i < rowTotal.length; i++) {
                 if (rowCounts[i] > rowTotal[i]) {
-                    wrongRow = i;
-                    changeRowNumberColour(wrongRow);
+                    changeRowNumberColour(i);
+                }
+            }
+        }
+
+
+        if (!Arrays.equals(columnCounts, columnTotal)){
+            for (int i = 0; i < columnTotal.length; i++){
+                if (columnCounts[i] > columnTotal[i]) {
+                    changeColumnNumberColour(i);
                 }
             }
         }
@@ -303,6 +312,12 @@ public class AquariumViewer implements MouseListener
     {
         int changingNumberPosition = OFFSET + BOXSIZE / 2 + r * BOXSIZE + 10;
         sc.drawString(puzzle.getRowTotals()[r], OFFSET - 30, changingNumberPosition, NOTIFICATION_COLOUR);
+    }
+
+    public void changeColumnNumberColour(int c)
+    {
+        int changingNumberPosition = OFFSET + BOXSIZE / 2 + c * BOXSIZE - 10;
+        sc.drawString(puzzle.getColumnTotals()[c], changingNumberPosition, OFFSET - 15, NOTIFICATION_COLOUR);
     }
 
     /**

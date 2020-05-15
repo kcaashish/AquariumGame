@@ -8,6 +8,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 
 public class AquariumViewer implements MouseListener
 {
@@ -21,11 +22,12 @@ public class AquariumViewer implements MouseListener
     private int        size; // the puzzle is size x size
     private SimpleCanvas sc; // the display window
 
-    private final static Color BACK_COLOUR = Color.white;
+    private final static Color BACK_COLOUR = Color.decode("#FFFFF0");
     private final static Color GRID_COLOUR = Color.black;
-    private final static Color BORDER_COLOUR = Color.red;
+    private final static Color BORDER_COLOUR = Color.black;
+    private final static Color NOTIFICATION_COLOUR = Color.decode("#FF000D");
     private final static Color WATER_COLOUR = Color.cyan;
-    private final static Color AIR_COLOUR = Color.pink;
+    private final static Color AIR_COLOUR = Color.decode("#0ADD08");
     private final static Color BUTTON_COLOUR = Color.decode("#6CB5BD");
 
 
@@ -127,6 +129,7 @@ public class AquariumViewer implements MouseListener
         fontSize(20);
         displayNumbers();
         displayButtons();
+        changeRNumberColour();
         // TODO 13
     }
     
@@ -246,7 +249,7 @@ public class AquariumViewer implements MouseListener
             sc.drawRectangle(left, top, right, bot, WATER_COLOUR);
         }
         else if (space == Space.AIR) {
-            sc.drawRectangle(left, top, right, bot, BACK_COLOUR);
+            sc.drawRectangle(left, top, right, bot, Color.decode("#ECFFB8"));
             sc.drawCircle((left + right) / 2, (top + bot) / 2, 10, AIR_COLOUR);
         }
         else if (space == Space.EMPTY) {
@@ -279,7 +282,29 @@ public class AquariumViewer implements MouseListener
 
         return (clearX1 < r && r < clearX2 && clearY1 < c && c < clearY2);
     }
-    
+
+    public void changeRNumberColour()
+    {
+        int[] rowCounts = CheckSolution.rowCounts(puzzle);
+        int[] rowTotal = puzzle.getRowTotals();
+        int wrongRow;
+
+        if (!Arrays.equals(rowTotal, rowCounts)) {
+            for (int i = 0; i < rowTotal.length; i++) {
+                if (rowCounts[i] > rowTotal[i]) {
+                    wrongRow = i;
+                    changeRowNumberColour(wrongRow);
+                }
+            }
+        }
+    }
+
+    public void changeRowNumberColour(int r)
+    {
+        int changingNumberPosition = OFFSET + BOXSIZE / 2 + r * BOXSIZE + 10;
+        sc.drawString(puzzle.getRowTotals()[r], OFFSET - 30, changingNumberPosition, NOTIFICATION_COLOUR);
+    }
+
     /**
      * Responds to a mouse click. 
      * If it's on the board, make the appropriate move and update the screen display. 

@@ -80,20 +80,14 @@ public class CheckSolution
     {
         int status;
         int[] rowStatus = new int[]{0,-1};
-        ArrayList<Integer> columnElement = new ArrayList<>();
+        ArrayList<Space> spaces = new ArrayList<>();
 
         for(int i = 0; i < p.getSize(); i++) {
             for (int j = 0; j < p.getSize(); j++) {
                 if (p.getAquariums()[r][j] == t) {
-                    columnElement.add(j);
+                    spaces.add(p.getSpaces()[r][j]);
+                    rowStatus[1] = j;
                 }
-            }
-
-            ArrayList<Space> spaces = new ArrayList<>();
-
-            for (int y : columnElement) {
-                rowStatus[1] = y;
-                spaces.add(p.getSpaces()[r][y]);
             }
 
             // setting status

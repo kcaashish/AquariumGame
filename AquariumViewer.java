@@ -126,9 +126,11 @@ public class AquariumViewer implements MouseListener
         }
         displayGrid();
         displayAquariums();
-        fontSize(20);
+        fontSize(25);
         displayNumbers();
+        fontSize(20);
         displayButtons();
+        fontSize(25);
         changeNumberColour();
         // TODO 13
     }
@@ -290,14 +292,13 @@ public class AquariumViewer implements MouseListener
         int[] columnCounts = CheckSolution.columnCounts(puzzle);
         int[] columnTotal = puzzle.getColumnTotals();
 
-        if (!Arrays.equals(rowTotal, rowCounts)) {
+        if (!Arrays.equals(rowCounts, rowTotal)) {
             for (int i = 0; i < rowTotal.length; i++) {
                 if (rowCounts[i] > rowTotal[i]) {
                     changeRowNumberColour(i);
                 }
             }
         }
-
 
         if (!Arrays.equals(columnCounts, columnTotal)){
             for (int i = 0; i < columnTotal.length; i++){

@@ -237,10 +237,10 @@ public class AquariumViewer implements MouseListener
     {
         Space space = puzzle.getSpaces()[r][c];
 
-        int top = OFFSET + c * BOXSIZE;
-        int bot = OFFSET + (c + 1) * BOXSIZE;
-        int left = OFFSET + r * BOXSIZE;
-        int right = OFFSET + (r + 1) * BOXSIZE;
+        int top = OFFSET + r * BOXSIZE;
+        int bot = OFFSET + (r + 1) * BOXSIZE;
+        int left = OFFSET + c * BOXSIZE;
+        int right = OFFSET + (c + 1) * BOXSIZE;
 
         if (space == Space.WATER) {
             sc.drawRectangle(left, top, right, bot, WATER_COLOUR);
@@ -292,7 +292,7 @@ public class AquariumViewer implements MouseListener
             if (boxClicked(e.getX(), e.getY())){
                 int xBox = (e.getX() - OFFSET) / BOXSIZE;
                 int yBox = (e.getY() - OFFSET) / BOXSIZE;
-                puzzle.leftClick(xBox, yBox);
+                puzzle.leftClick(yBox, xBox);
                 displayPuzzle();
             }
             else if (clearClicked(e.getX(), e.getY())){
@@ -314,7 +314,7 @@ public class AquariumViewer implements MouseListener
             if (boxClicked(e.getX(), e.getY())) {
                 int xBox = (e.getX() - OFFSET) / BOXSIZE;
                 int yBox = (e.getY() - OFFSET) / BOXSIZE;
-                puzzle.rightClick(xBox, yBox);
+                puzzle.rightClick(yBox, xBox);
                 displayPuzzle();
             }
         }

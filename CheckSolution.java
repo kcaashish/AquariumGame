@@ -25,9 +25,9 @@ public class CheckSolution
         int waterCount = 0;
         int[] totalRowWaterCount = new int[spaces.length];
 
-        // matches with column numbers counting top to down
+        // matches with row numbers counting top to down
         for (int i = 0; i < spaces.length; i++){
-            for (int j = 0; j < spaces[0].length; j++){
+            for (int j = 0; j < spaces.length; j++){
                 if (spaces[i][j] == Space.WATER){
                     waterCount++;
                 }
@@ -35,6 +35,7 @@ public class CheckSolution
             totalRowWaterCount[i] = waterCount;
             waterCount = 0;
         }
+
         // TODO 16
         return totalRowWaterCount;
 
@@ -50,7 +51,7 @@ public class CheckSolution
         int waterCount = 0;
         int[] totalColumnWaterCount = new int[spaces.length];
 
-        // matches with row numbers counting left to right
+        // matches with column numbers counting left to right
         for (int i = 0; i < spaces.length; i++){
             for (int j = 0; j < spaces[0].length; j++){
                 if (spaces[j][i] == Space.WATER){
@@ -92,9 +93,6 @@ public class CheckSolution
 
             for (int y : columnElement) {
                 rowStatus[1] = y;
-
-                // should actually use y , r
-                // put r, y to pass the test
                 spaces.add(p.getSpaces()[r][y]);
             }
 
@@ -162,26 +160,26 @@ public class CheckSolution
             }
         }
 
-        if( Arrays.equals(p.getColumnTotals(),rowCounts(p)) && Arrays.equals(p.getRowTotals(),columnCounts(p)) && allAquariumsOK){
+        if( Arrays.equals(p.getRowTotals(),rowCounts(p)) && Arrays.equals(p.getColumnTotals(),columnCounts(p)) && allAquariumsOK){
             feedback = threeTicks;
         }
-        else if (!Arrays.equals(p.getRowTotals(), columnCounts(p))){
+        else if (!Arrays.equals(p.getRowTotals(), rowCounts(p))){
             int wrongRow = 0;
-            for (int i = p.getRowTotals().length - 1; i >= 0; i--){
-                if (columnCounts(p)[i] != p.getRowTotals()[i]){
+            for (int i = p.getRowTotals().length -1; i >= 0; i--){
+                if (rowCounts(p)[i] != p.getRowTotals()[i]){
                     wrongRow = i;
                 }
             }
-            feedback = "Column " + wrongRow + " is wrong";
+            feedback = "Row " + wrongRow + " is wrong";
         }
-        else if (!Arrays.equals(p.getColumnTotals(), rowCounts(p))){
+        else if (!Arrays.equals(p.getColumnTotals(), columnCounts(p))){
             int wrongColumn = 0;
-            for (int i = p.getColumnTotals().length -1; i >= 0; i--){
-                if (rowCounts(p)[i] != p.getColumnTotals()[i]){
+            for (int i = p.getColumnTotals().length - 1; i >= 0; i--){
+                if (columnCounts(p)[i] != p.getColumnTotals()[i]){
                     wrongColumn = i;
                 }
             }
-            feedback = "Row " + wrongColumn + " is wrong";
+            feedback = "Column " + wrongColumn + " is wrong";
         }
         else if (!allAquariumsOK) {
             feedback = "The aquarium at " + wrongAquarium + " is wrong";

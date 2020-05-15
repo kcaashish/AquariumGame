@@ -49,7 +49,7 @@ public class Aquarium
 
         for (int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
-                spaces[j][i] = Space.EMPTY;
+                spaces[i][j] = Space.EMPTY;
             }
         }
         // TODO 3
@@ -167,7 +167,7 @@ public class Aquarium
 
         for (int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
-                spaces[j][i] = Space.EMPTY;
+                spaces[i][j] = Space.EMPTY;
             }
         }
         // TODO 6

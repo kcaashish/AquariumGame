@@ -33,18 +33,23 @@ public class Aquarium
         columnTotals = parseLine(lines.get(0));
         rowTotals = parseLine(lines.get(1));
 
+        // initializing aquariums - numbers from line 3 to last line
         ArrayList<int[]> aquariumList = new ArrayList<>();
+
+        // copying numbers from each line to the list
         for (int i = 3; i < lines.size(); i++){
             aquariumList.add(parseLine(lines.get(i)));
         }
 
         aquariums = new int[size][size];
 
+        // copying the arrays present in each index of list to same index of 2d array aquariums
         for (int i = 0; i < size; i++){
             int[] temp = aquariumList.get(i);
             System.arraycopy(temp, 0, aquariums[i], 0, size);
         }
 
+        // initializing spaces - all empty
         spaces = new Space[size][size];
 
         for (int i = 0; i < size; i++){
@@ -77,7 +82,6 @@ public class Aquarium
             lineArr[i++] = Integer.parseInt(x);
         }
         // TODO 2
-//        int[] lineArr = Stream.of(s.split(" ")).mapToInt(Integer::parseInt).toArray();
         return lineArr;
     }
     

@@ -71,20 +71,11 @@ public class AquariumViewer implements MouseListener
     }
 
     /**
-     * Increases the font size by a factor x.
+     * Sets the font to the size given my the integer passed to it.
      */
     private void fontSize(int x)
     {
-//        sc.setFont(sc.getFont().deriveFont((float) (sc.getFont().getSize() * x)));
         sc.setFont(new Font(sc.getFont().getFontName(), Font.BOLD, x));
-    }
-
-    /**
-     * Makes the font bold.
-     */
-    private void fontBold()
-    {
-        sc.setFont(sc.getFont().deriveFont(Font.BOLD));
     }
 
     /**
@@ -119,18 +110,23 @@ public class AquariumViewer implements MouseListener
      */
     private void displayPuzzle()
     {
+        // update square each time displayPuzzle is called
         for (int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
                 updateSquare(i, j);
             }
         }
+
         displayGrid();
         displayAquariums();
-        fontSize(25);
+
+        fontSize(25);    // font size for the displayNumbers in row and column
         displayNumbers();
-        fontSize(20);
+
+        fontSize(20);   // font size for the text in displayButtons
         displayButtons();
-        fontSize(25);
+
+        fontSize(25);  // again, font size for the displayNumbers, after changing colour
         changeNumberColour();
         // TODO 13
     }
@@ -260,11 +256,13 @@ public class AquariumViewer implements MouseListener
         // TODO 14
     }
 
+    // check if one of the boxes in the square puzzle is clicked
     private boolean boxClicked (int r, int c)
     {
         return (r > OFFSET) && r < WINDOWSIZE - OFFSET && (c > OFFSET) && c < WINDOWSIZE - OFFSET;
     }
 
+    // check is the solved button is clicked
     private boolean solvedClicked(int r, int c)
     {
         int solvedX1 = OFFSET - 10;
@@ -275,6 +273,7 @@ public class AquariumViewer implements MouseListener
         return (solvedX1 < r && r < solvedX2 && solvedY1 < c && c < solvedY2);
     }
 
+    // check if the clear button is clicked
     private boolean clearClicked (int r, int c)
     {
         int clearX1 = WINDOWSIZE - 2 * OFFSET + 20;
@@ -285,13 +284,19 @@ public class AquariumViewer implements MouseListener
         return (clearX1 < r && r < clearX2 && clearY1 < c && c < clearY2);
     }
 
+    /**
+     * Changes the colour of the number in row or column if the number of water
+     * in each row or column exceeds the required value.
+     */
     public void changeNumberColour()
     {
+        // rowCounts and columnCounts are objects of class CheckSolution
         int[] rowCounts = CheckSolution.rowCounts(puzzle);
         int[] rowTotal = puzzle.getRowTotals();
         int[] columnCounts = CheckSolution.columnCounts(puzzle);
         int[] columnTotal = puzzle.getColumnTotals();
 
+        // check for row
         if (!Arrays.equals(rowCounts, rowTotal)) {
             for (int i = 0; i < rowTotal.length; i++) {
                 if (rowCounts[i] > rowTotal[i]) {
@@ -300,6 +305,7 @@ public class AquariumViewer implements MouseListener
             }
         }
 
+        // check for column
         if (!Arrays.equals(columnCounts, columnTotal)){
             for (int i = 0; i < columnTotal.length; i++){
                 if (columnCounts[i] > columnTotal[i]) {
@@ -309,12 +315,14 @@ public class AquariumViewer implements MouseListener
         }
     }
 
+    // changes the colour of row numbers
     public void changeRowNumberColour(int r)
     {
         int changingNumberPosition = OFFSET + BOXSIZE / 2 + r * BOXSIZE + 10;
         sc.drawString(puzzle.getRowTotals()[r], OFFSET - 30, changingNumberPosition, NOTIFICATION_COLOUR);
     }
 
+    // changes the colour of column numbers
     public void changeColumnNumberColour(int c)
     {
         int changingNumberPosition = OFFSET + BOXSIZE / 2 + c * BOXSIZE - 10;
@@ -329,28 +337,35 @@ public class AquariumViewer implements MouseListener
      */
     public void mousePressed(MouseEvent e) 
     {
+        // if left clicked
         if (SwingUtilities.isLeftMouseButton(e)){
+
+            // if one of the boxes is clicked do this & update puzzle
             if (boxClicked(e.getX(), e.getY())){
                 int xBox = (e.getX() - OFFSET) / BOXSIZE;
                 int yBox = (e.getY() - OFFSET) / BOXSIZE;
                 puzzle.leftClick(yBox, xBox);
                 displayPuzzle();
             }
+
+            // if Clear button is clicked do this & update puzzle
             else if (clearClicked(e.getX(), e.getY())){
                 puzzle.clear();
                 sc.drawRectangle(0, 0, WINDOWSIZE, WINDOWSIZE, BACK_COLOUR);
                 displayPuzzle();
-                System.out.println("The screen will get cleared!");
             }
+
+            // if Solved? is clicked do this & update puzzle
             else if (solvedClicked(e.getX(), e.getY())){
                 fontSize(15);
                 String solution = CheckSolution.isSolution(puzzle);
                 sc.drawRectangle(0, 0, WINDOWSIZE, WINDOWSIZE, BACK_COLOUR);
                 sc.drawString(solution, OFFSET, WINDOWSIZE - 20, GRID_COLOUR);
                 displayPuzzle();
-                System.out.println("The answer will be checked!");
             }
         }
+
+        // if right clicked
         else if (SwingUtilities.isRightMouseButton(e)) {
             if (boxClicked(e.getX(), e.getY())) {
                 int xBox = (e.getX() - OFFSET) / BOXSIZE;

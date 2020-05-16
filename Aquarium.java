@@ -10,13 +10,13 @@ import java.util.stream.Stream;
 
 public class Aquarium
 {
-    private int   size;         // the board is size x size
-    private int[] columnTotals; // the totals at the top of the columns, left to right
-    private int[] rowTotals;    // the totals at the left of the rows, top to bottom 
+    private final int   size;         // the board is size x size
+    private final int[] columnTotals; // the totals at the top of the columns, left to right
+    private final int[] rowTotals;    // the totals at the left of the rows, top to bottom
     
     // the board divided into aquariums, numbered from 1,2,3,...
     // spaces with the same number are part of the same aquarium
-    private int[][] aquariums;
+    private final int[][] aquariums;
     // the board divided into spaces, each empty, water, or air
     private Space[][] spaces;
 
@@ -75,14 +75,8 @@ public class Aquarium
      */
     public static int[] parseLine(String s)
     {
-        String[] nums = s.split(" ");
-        int[] lineArr = new int[nums.length];
-        int i = 0;
-        for (String x : nums){
-            lineArr[i++] = Integer.parseInt(x);
-        }
         // TODO 2
-        return lineArr;
+        return Stream.of(s.split(" ")).mapToInt(Integer::parseInt).toArray();
     }
     
     /**

@@ -14,13 +14,13 @@ public class AquariumViewer implements MouseListener
 {
     private final int BOXSIZE = 50;          // the size of each square
     private final int OFFSET  = BOXSIZE * 2; // the gap around the board
-    private       int WINDOWSIZE;            // set this in the constructor 
-    private       int gridSize;
-    private       int marginSize;
+    private final int WINDOWSIZE;            // set this in the constructor
+    private final int gridSize;
+    private final int marginSize;
 
-    private Aquarium puzzle; // the internal representation of the puzzle
-    private int        size; // the puzzle is size x size
-    private SimpleCanvas sc; // the display window
+    private final Aquarium puzzle; // the internal representation of the puzzle
+    private final int        size; // the puzzle is size x size
+    private final SimpleCanvas sc; // the display window
 
     private final static Color BACK_COLOUR = Color.decode("#FFFFF0");
     private final static Color GRID_COLOUR = Color.black;

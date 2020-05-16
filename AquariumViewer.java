@@ -340,22 +340,26 @@ public class AquariumViewer implements MouseListener
         // if left clicked
         if (SwingUtilities.isLeftMouseButton(e)){
 
-            // if one of the boxes is clicked do this & update puzzle
+            // if one of the boxes is clicked do this
+            // redraw the window & update puzzle
             if (boxClicked(e.getX(), e.getY())){
                 int xBox = (e.getX() - OFFSET) / BOXSIZE;
                 int yBox = (e.getY() - OFFSET) / BOXSIZE;
                 puzzle.leftClick(yBox, xBox);
+                sc.drawRectangle(0, 0, WINDOWSIZE, WINDOWSIZE, BACK_COLOUR);
                 displayPuzzle();
             }
 
-            // if Clear button is clicked do this & update puzzle
+            // if Clear button is clicked do this
+            // redraw the window & update puzzle
             else if (clearClicked(e.getX(), e.getY())){
                 puzzle.clear();
                 sc.drawRectangle(0, 0, WINDOWSIZE, WINDOWSIZE, BACK_COLOUR);
                 displayPuzzle();
             }
 
-            // if Solved? is clicked do this & update puzzle
+            // if Solved? is clicked do this
+            // redraw the window & update puzzle
             else if (solvedClicked(e.getX(), e.getY())){
                 fontSize(15);
                 String solution = CheckSolution.isSolution(puzzle);
@@ -365,12 +369,14 @@ public class AquariumViewer implements MouseListener
             }
         }
 
-        // if right clicked
+        // if right clicked on the box, do this
+        // redraw the window & update the puzzle
         else if (SwingUtilities.isRightMouseButton(e)) {
             if (boxClicked(e.getX(), e.getY())) {
                 int xBox = (e.getX() - OFFSET) / BOXSIZE;
                 int yBox = (e.getY() - OFFSET) / BOXSIZE;
                 puzzle.rightClick(yBox, xBox);
+                sc.drawRectangle(0, 0, WINDOWSIZE, WINDOWSIZE, BACK_COLOUR);
                 displayPuzzle();
             }
         }
